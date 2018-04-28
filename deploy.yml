@@ -1,0 +1,25 @@
+# This playbook is used to deploy jboss eap 7 Author - Vikram V
+
+- hosts: servera.example.com
+
+  roles:
+   - role: jboss7-install
+     tags: eapinstall
+   - role: app-customiztion
+     tags: custom
+   - role: startup-scripts
+     tags: startups
+  vars_files:
+   - vars/ser1.yml
+
+- hosts: serverb.example.com
+
+  roles:
+   - role: jboss7-install
+     tags: eapinstall
+   - role: app-customiztion
+     tags: custom
+   - role: startup-scripts
+     tags: startups
+  vars_files:
+   - vars/ser2.yml
