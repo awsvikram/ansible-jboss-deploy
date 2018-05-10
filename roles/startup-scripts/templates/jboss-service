@@ -1,0 +1,13 @@
+[Unit]
+Description=JBoss standalone control script
+After=local-fs.target remote-fs.target network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/bash -c "/etc/rc.d/init.d/jboss-{{ app_name }} start"
+ExecStop=/bin/bash -c "/etc/rc.d/init.d/jboss-{{ app_name }} stop"
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target
