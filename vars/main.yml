@@ -1,0 +1,9 @@
+# vars file for jboss7-deploy
+user_id: dummy
+app_name: dummy_name
+ip_address: X.X.X.X
+ip_address1: X.X.X.X
+ip_address2: X.X.X.X
+
+heap_size: -Xmx2048m
+node_name: node0
