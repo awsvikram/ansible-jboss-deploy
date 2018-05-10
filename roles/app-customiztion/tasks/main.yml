@@ -1,0 +1,43 @@
+- name: Create the jboss user
+  user:
+   name: "{{ user_id }}"
+   shell: /bin/bash
+   groups: jbossadm
+   state: present
+
+- name: This will create the directory inside the jboss directory passed in the variable
+  file:
+   path: /app/jboss/jboss-eap-7.0.4/server/{{ app_name }}
+   state: directory
+   mode: 0755
+
+- name: This will copy the configuration file to the jboss path
+  template:
+    src: template.conf
+    dest: /app/jboss/jboss-eap-7.0.4/configurations/{{ app_name }}.conf
+
+- name: server.zip move
+  copy:
+   src: /app/server.zip
+   dest: /app/jboss/jboss-eap-7.0.4/server/{{ app_name }}
+
+- name: Dump the server zip you have inside the standalone directory
+  unarchive:
+   dest: /app/jboss/jboss-eap-7.0.4/server/{{ app_name }}
+   src: /app/jboss/jboss-eap-7.0.4/server/{{ app_name }}/server.zip
+   copy: no
+
+
+- name: Placing the customized standalone.xml for tcp clustering
+  template:
+   src: standalone.xml
+   dest: /app/jboss/jboss-eap-7.0.4/server/{{ app_name }}/configuration/
+
+
+- name: Change the ownsership
+  file:
+   path: /app/jboss/jboss-eap-7.0.4/server/{{ app_name }}
+   owner: "{{ user_id }}"
+   group: jbossadm
+   mode: 0755
+   recurse: yes
