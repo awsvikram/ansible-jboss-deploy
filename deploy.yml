@@ -10,7 +10,7 @@
    - role: startup-scripts
      tags: startups
   vars_files:
-   - vars/ser1.yml
+   - vars/main.yml
 
 - hosts: serverb.example.com
 
