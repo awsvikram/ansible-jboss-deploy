@@ -1,0 +1,32 @@
+- name: Jdk installation 1.8
+  copy:
+    src: /app/jdk1.8.0_111.zip
+    dest: /app
+- name: Extracting the jdk
+  unarchive:
+    dest: /app
+    src: /app/jdk1.8.0_111.zip
+    copy: no
+
+- name: Jboss EAP unzip and install
+  copy:
+    src: /app/jboss-eap-7.0.4.zip
+    dest: /app/jboss
+
+- name: Extract the zip file
+  unarchive:
+    dest: /app/jboss
+    src: /app/jboss/jboss-eap-7.0.4.zip
+    creates: /app/jboss/jboss-eap-7.0.4
+    copy: no
+
+
+- name: Creating the configuration directory to move the customized file
+  file:
+    path: /app/jboss/jboss-eap-7.0.4/configurations
+    state: directory
+
+- name: This task will remove the standalone directory and create a server directory to customize
+  file:
+   path: /app/jboss/jboss-eap-7.0.4/standalone
+   state: absent
