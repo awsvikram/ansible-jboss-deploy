@@ -1,0 +1,39 @@
+- name: Placing the start script
+  template:
+    src: start.sh
+    dest: /home/{{ user_id }}/start-{{ app_name }}.sh
+    owner: "{{ user_id }}"
+    group: jbossadm
+    mode: 0755
+
+- name: Placing the stop script
+  template:
+    src: stop.sh
+    dest: /home/{{ user_id }}/stop-{{ app_name }}.sh
+    owner: "{{ user_id }}"
+    group: jbossadm
+    mode: 0755
+
+- name: Creating softlink to the jboss directory
+  file:
+   src: /app/jboss/jboss-eap-7.0.4/server/{{ app_name }}
+   dest: /home/{{ user_id }}/{{ app_name }}
+   state: link
+
+- name: Place the standlone script in init.d directory
+  template:
+   src: standalone.sh
+   dest: /etc/init.d/jboss-{{ app_name }}
+   mode: 0755
+
+- name: Place the standlone script in rc3.d directory
+  template:
+   src: standalone.sh
+   dest: /etc/rc.d/init.d/jboss-{{ app_name }}
+   mode: 0755
+
+- name: Placing the service file
+  template:
+    src: jboss-service
+    dest: /etc/systemd/system/jboss-{{ app_name }}.service
+    mode: 0755
